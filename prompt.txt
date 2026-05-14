@@ -1,0 +1,42 @@
+Act as a System Architect and Senior Developer. 
+Tugas kamu adalah membuat dokumen perencanaan tingkat tinggi (high-level planning) untuk sebuah proyek aplikasi **AI-Based Audit Checker**. 
+
+Dokumen ini akan digunakan sebagai panduan utama bagi tim programmer atau AI agent lain untuk mengimplementasikan kode. JANGAN tuliskan kode implementasi (controller/model/view) yang terlalu low-level. Fokus pada arsitektur, alur sistem, dan konfigurasi environment.
+
+# KONTEKS PROYEK
+Aplikasi ini bertujuan untuk mengotomatisasi pengecekan audit repetitif yang selama ini membuang waktu dan tenaga auditor (SDM). Sistem akan membandingkan data input (teks, angka, tanggal) dari sistem perusahaan dengan file pendukung (gambar/PDF/dokumen) atau dengan sesama data input lainnya menggunakan bantuan AI vision/analisis, untuk mencari indikasi anomali atau pelanggaran (temuan).
+
+PENTING: Arsitektur aplikasi harus dinamis karena harus bisa menangani **BANYAK TEMA AUDIT**, bukan hanya satu.
+
+# CONTOH TEMA AUDIT (Sebagai Referensi Alur)
+1. **Pemeriksaan Entertainment Calon Nasabah/Existing:**
+   - Data Sistem: no_ent, tanggal, nota_entertain, total_nominal, metode_pembayaran.
+   - Pengecekan AI: Validasi gambar nota terhadap data sistem. Kriteria: Tidak boleh ada alkohol, tidak boleh ada karaoke, batas maksimal tips caddy golf.
+2. **Pemeriksaan Penggunaan BBM:**
+   - Data Sistem: no_pengajuanbbm, jenis_kendaraan, merk, tipe, km_awal, km_akhir, nominal_pembayaran_bensin, gambar nota_bensin.
+   - Pengecekan AI: Analisis rasio penggunaan bensin (berdasarkan km_awal & km_akhir) terhadap tipe kendaraan. Pengecekan nominal pembayaran (harus dibagi tarif Pertalite Rp10.000). Analisis kelengkapan nota (no_plat, argometer, dll).
+   
+*Catatan: Semua hasil temuan/anomali dari tema-tema audit ini nantinya akan direkap dan dikirimkan sebagai laporan melalui email body.*
+
+# TECH STACK & ENVIRONMENT
+- **Backend/Framework:** Laravel
+- **Database:** MySQL
+- **Development Environment (Lokal):** Docker (Docker Compose). Development dilakukan di mesin macOS (Apple Silicon/ARM64).
+- **Production/Deployment Environment:** Berjalan secara **Native/Bare-metal (Tanpa Docker)** di OS Windows 7 dan Windows 10. Bisa menggunakan tools seperti Laragon, XAMPP, atau instalasi PHP & MySQL native.
+
+# DELIVERABLES YANG DIMINTA
+Tolong hasilkan dua output berikut:
+
+1. **Buatkan konten untuk file `issue.md`**
+   Berisi high-level planning yang mencakup:
+   - Ringkasan Proyek.
+   - High-Level Architecture (bagaimana sistem menangani "multi-tema" audit secara dinamis, misal dengan pola Strategy/Factory atau struktur database yang modular).
+   - Alur Kerja Sistem (Flow dari data masuk -> diproses AI -> reporting email).
+   - Deployment Strategy (Panduan high-level tentang bagaimana menyiapkan aplikasi Laravel ini agar bisa berjalan mulus di Windows 7/10 secara native, termasuk rekomendasi versi PHP/MySQL yang aman untuk Windows 7).
+   - Daftar Task Utama (Epic/Stories) untuk implementasi.
+
+2. **Buatkan file `docker-compose.yml` khusus untuk Development**
+   - Sediakan konfigurasi untuk Laravel app (PHP) dan MySQL.
+   - Pastikan konfigurasi ini dioptimalkan untuk development di macOS, namun menggunakan versi PHP/MySQL yang sama persis dengan yang direkomendasikan untuk deployment di Windows 7 agar tidak ada isu kompatibilitas saat naik ke production.
+
+Buatkan planning tersebut ke dalam file issue.md
